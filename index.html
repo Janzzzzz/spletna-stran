@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Wall boosting Clash of Clans</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --blue-main:#0b63c6;
+      --blue-light:#e4f2ff;
+      --blue-soft:#f4f9ff;
+      --text-main:#1f3c5d;
+    }
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#f3fbff 0%, #e6f6ff 100%);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text-main);
+    }
+
+    .page{
+      max-width:960px;
+      margin:40px auto;
+      padding:0 16px 60px;
+    }
+
+    .frame{
+      border-left:4px solid var(--blue-main);
+      border-right:4px solid var(--blue-main);
+      padding:24px 24px 40px;
+      background:var(--blue-soft);
+      box-shadow:0 8px 30px rgba(11,99,198,0.15);
+      border-radius:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .frame::before,
+    .frame::after{
+      content:"";
+      position:absolute;
+      top:-40px;
+      bottom:-40px;
+      width:20px;
+      border-left:3px solid rgba(11,99,198,0.4);
+      border-right:3px solid transparent;
+      border-radius:999px;
+    }
+    .frame::before{left:-6px;}
+    .frame::after{right:-6px;}
+
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:24px;
+    }
+    .logo-main{
+      font-size:32px;
+      font-weight:800;
+      color:var(--blue-main);
+      letter-spacing:2px;
+    }
+    .logo-sub{
+      font-size:18px;
+      font-weight:700;
+      margin-left:6px;
+    }
+    .nav{
+      display:flex;
+      gap:20px;
+      font-weight:600;
+      font-size:15px;
+    }
+    .nav a{
+      text-decoration:none;
+      color:var(--text-main);
+      position:relative;
+    }
+    .nav a.active::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:-4px;
+      height:2px;
+      background:var(--blue-main);
+      border-radius:999px;
+    }
+
+    .hero{
+      text-align:center;
+      margin-bottom:28px;
+    }
+    .hero-box{
+      display:inline-block;
+      padding:16px 26px;
+      background:white;
+      border:2px solid var(--blue-main);
+      border-radius:18px;
+      font-size:22px;
+      font-weight:700;
+      line-height:1.3;
+    }
+
+    .calculator{
+      margin-top:16px;
+      background:white;
+      border-radius:16px;
+      padding:18px 18px 22px;
+      border:2px solid #d5e7ff;
+    }
+    .row-header{
+      display:grid;
+      grid-template-columns:2fr 1fr 1.4fr;
+      gap:12px;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns:2fr 1fr 1.4fr;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .label-small{
+      font-size:12px;
+      color:#64748b;
+      margin-bottom:4px;
+    }
+    .input,
+    .output{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:2px solid #d4e4ff;
+      background:linear-gradient(180deg,#ffffff,#f6f8ff);
+      font-size:14px;
+      font-weight:600;
+      color:var(--blue-main);
+      box-sizing:border-box;
+    }
+    .output{
+      background:#f0f7ff;
+    }
+    .output[readonly]{
+      cursor:default;
+    }
+
+    .info{
+      margin-top:10px;
+      font-size:13px;
+      color:#64748b;
+    }
+
+    .totals{
+      margin-top:16px;
+      padding-top:14px;
+      border-top:1px dashed #c3d7f7;
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      justify-content:space-between;
+      align-items:flex-end;
+    }
+    .total-label{
+      font-size:13px;
+      color:#64748b;
+    }
+    .total-millions{
+      font-size:18px;
+      font-weight:800;
+    }
+    .total-eur{
+      font-size:22px;
+      font-weight:900;
+      color:var(--blue-main);
+    }
+    .rate{
+      margin-top:4px;
+      font-size:13px;
+      color:#475569;
+    }
+
+    .buy-btn{
+      margin-top:18px;
+      padding:12px 30px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(90deg,#0b63c6,#2f9df4);
+      color:#ffffff;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(11,99,198,0.4);
+    }
+    .buy-btn:hover{
+      transform:translateY(-1px);
+    }
+    .buy-btn:active{
+      transform:translateY(1px);
+      box-shadow:0 2px 10px rgba(11,99,198,0.3);
+    }
+
+    @media (max-width:700px){
+      .header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+      }
+      .row-header,
+      .row{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <div class="frame">
+
+    <header class="header">
+      <div>
+        <span class="logo-main">WALL</span>
+        <span class="logo-sub">BOOSTING</span>
+      </div>
+      <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#news">News</a>
+        <a href="#boost" class="active">Boost</a>
+        <a href="#orders">Orders</a>
+      </nav>
+    </header>
+
+    <div class="hero" id="home">
+      <div class="hero-box">
+        Boost your<br>Clash of Clans walls
+      </div>
+    </div>
+
+    <section class="calculator" id="boost">
+      <div class="row-header">
+        <div>WALL PRICE (in millions)</div>
+        <div>QUANTITY</div>
+        <div>TOTAL MILLIONS FOR WALLS</div>
+      </div>
+
+      <!-- Row 1 -->
+      <div class="row">
+        <div>
+          <div class="label-small">Wall price 1</div>
+          <input type="number" id="price1" class="input" min="0" step="0.01" placeholder="e.g. 3 (million)">
+        </div>
+        <div>
+          <div class="label-small">Quantity 1</div>
+          <input type="number" id="qty1" class="input" min="0" step="1" placeholder="number of walls">
+        </div>
+        <div>
+          <div class="label-small">Total 1 (millions)</div>
+          <input type="text" id="total1" class="output" readonly value="0">
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="row">
+        <div>
+          <div class="label-small">Wall price 2</div>
+          <input type="number" id="price2" class="input" min="0" step="0.01" placeholder="e.g. 5 (million)">
+        </div>
+        <div>
+          <div class="label-small">Quantity 2</div>
+          <input type="number" id="qty2" class="input" min="0" step="1" placeholder="number of walls">
+        </div>
+        <div>
+          <div class="label-small">Total 2 (millions)</div>
+          <input type="text" id="total2" class="output" readonly value="0">
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="row">
+        <div>
+          <div class="label-small">Wall price 3</div>
+          <input type="number" id="price3" class="input" min="0" step="0.01" placeholder="e.g. 7 (million)">
+        </div>
+        <div>
+          <div class="label-small">Quantity 3</div>
+          <input type="number" id="qty3" class="input" min="0" step="1" placeholder="number of walls">
+        </div>
+        <div>
+          <div class="label-small">Total 3 (millions)</div>
+          <input type="text" id="total3" class="output" readonly value="0">
+        </div>
+      </div>
+
+      <div class="info">
+        For each line: <strong>walls price × quantity = total millions</strong>.
+      </div>
+
+      <div class="totals">
+        <div>
+          <div class="total-label">TOTAL MILLIONS (all walls)</div>
+          <div class="total-millions" id="grandMillions">0.00</div>
+          <div class="rate">215 millions = 1 €</div>
+        </div>
+        <div>
+          <div class="total-label">TOTAL (€)</div>
+          <div class="total-eur" id="grandEUR">0.00 €</div>
+        </div>
+      </div>
+
+      <button class="buy-btn" type="button">BUY</button>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  (function(){
+    const EURO_RATE = 215; // 1 EUR = 215 millions
+
+    const rows = [
+      {priceId: 'price1', qtyId: 'qty1', totalId: 'total1'},
+      {priceId: 'price2', qtyId: 'qty2', totalId: 'total2'},
+      {priceId: 'price3', qtyId: 'qty3', totalId: 'total3'}
+    ];
+
+    function toNumber(value){
+      const n = parseFloat(value);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function update(){
+      let sumMillions = 0;
+
+      rows.forEach(function(row){
+        const price = toNumber(document.getElementById(row.priceId).value);
+        const qty   = toNumber(document.getElementById(row.qtyId).value);
+        const total = price * qty;          // walls price × quantity
+        sumMillions += total;
+        document.getElementById(row.totalId).value = total.toFixed(2);
+      });
+
+      document.getElementById('grandMillions').textContent = sumMillions.toFixed(2);
+      const euros = sumMillions / EURO_RATE; // vse skupaj / 215
+      document.getElementById('grandEUR').textContent = euros.toFixed(2) + ' €';
+    }
+
+    rows.forEach(function(row){
+      document.getElementById(row.priceId).addEventListener('input', update);
+      document.getElementById(row.qtyId).addEventListener('input', update);
+    });
+
+    update();
+  })();
+</script>
+
+</body>
+</html>
