@@ -290,6 +290,7 @@
       font-size:11px;
       color:var(--muted);
     }
+
     .totals{
       margin-top:14px;
       padding-top:12px;
@@ -311,14 +312,41 @@
       font-weight:700;
     }
     .total-eur{
-      font-size:22px;
-      font-weight:800;
+      font-size:18px;
+      font-weight:700;
       color:var(--blue-main);
     }
     .rate{
       margin-top:3px;
       font-size:11px;
       color:var(--muted);
+    }
+
+    /* COUPON */
+    .coupon-block{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px dashed rgba(148,163,184,0.55);
+    }
+    .coupon-row{
+      display:flex;
+      gap:8px;
+      margin-top:4px;
+    }
+    .coupon-input{flex:1;}
+    .coupon-btn{
+      padding:8px 12px;
+      border-radius:999px;
+      border:none;
+      background:rgba(56,189,248,0.12);
+      color:var(--blue-main);
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .coupon-msg{
+      margin-top:4px;
+      font-size:11px;
     }
 
     /* ORDER / PAYMENT */
@@ -615,7 +643,7 @@
         </nav>
       </header>
 
-      <!-- HOME SECTION -->
+      <!-- HOME -->
       <section class="section-block active" data-section="home">
         <div class="hero">
           <div>
@@ -647,20 +675,20 @@
         </div>
       </section>
 
-      <!-- NEWS SECTION -->
+      <!-- NEWS -->
       <section class="section-block" data-section="news">
         <div class="card">
           <div class="section-title-row">
             <div class="section-title">News & updates</div>
-            <div class="section-sub">Small info board you can update in the code.</div>
+            <div class="section-sub">You can edit these entries in the HTML.</div>
           </div>
 
           <div class="news-list">
             <div class="news-card">
               <div class="news-tag">Update</div>
-              <div class="news-title">New calculator layout</div>
+              <div class="news-title">New calculator + coupons</div>
               <div class="news-date">2025-01-01</div>
-              <div>Modern blue theme & full order tracking added.</div>
+              <div>Modern blue theme, local database, coupon codes and vouches added.</div>
             </div>
             <div class="news-card">
               <div class="news-tag">Info</div>
@@ -668,17 +696,11 @@
               <div class="news-date">Always current</div>
               <div>We support PayPal (<strong>zupp1zupp1</strong>) and Paysafecard codes.</div>
             </div>
-            <div class="news-card">
-              <div class="news-tag">Tip</div>
-              <div class="news-title">Best way to order</div>
-              <div class="news-date">Anytime</div>
-              <div>Fill the calculator, place order, then pay with PayPal link or send Paysafecard.</div>
-            </div>
           </div>
         </div>
       </section>
 
-      <!-- BOOST / CALCULATOR SECTION -->
+      <!-- BOOST / CALCULATOR -->
       <section class="section-block" data-section="boost">
         <section class="card">
           <div class="section-title-row">
@@ -752,9 +774,23 @@
               <div class="rate">215 millions = 1 €</div>
             </div>
             <div>
-              <div class="total-label">Total (€)</div>
+              <div class="total-label">Base total (€)</div>
               <div class="total-eur" id="grandEUR">0.00 €</div>
             </div>
+            <div>
+              <div class="total-label">Total after coupon (€)</div>
+              <div class="total-eur" id="finalEUR">0.00 €</div>
+            </div>
+          </div>
+
+          <!-- COUPON -->
+          <div class="coupon-block">
+            <div class="pay-label">Coupon code</div>
+            <div class="coupon-row">
+              <input type="text" id="couponCode" class="text-input coupon-input" placeholder="Enter coupon (e.g. WALL10)">
+              <button class="coupon-btn" type="button" id="applyCouponBtn">APPLY</button>
+            </div>
+            <div class="coupon-msg" id="couponMsg"></div>
           </div>
 
           <!-- ORDER / PAYMENT -->
@@ -793,19 +829,19 @@
         </section>
       </section>
 
-      <!-- ORDERS SECTION -->
+      <!-- ORDERS -->
       <section class="section-block" data-section="orders">
         <section class="card">
           <div class="section-title-row">
-            <div class="section-title">Your orders (this browser)</div>
-            <div class="section-sub">Orders are stored only in this browser session (local preview, not real database).</div>
+            <div class="section-title">Your orders (this browser + preloaded)</div>
+            <div class="section-sub">Orders are stored only in this browser session. INITIAL_ORDERS are “preloaded”.</div>
           </div>
 
           <div id="ordersWrapper" class="orders-wrapper"></div>
         </section>
       </section>
 
-      <!-- VOUCHES SECTION -->
+      <!-- VOUCHES -->
       <section class="section-block" data-section="vouches">
         <section class="card">
           <div class="section-title-row">
@@ -849,6 +885,68 @@
   (function(){
     const EURO_RATE = 215; // 1 EUR = 215 millions
 
+    // 🔹 “DATABASE” – TU UREJAŠ KUPONE
+    // type: "percent" = % popust, "fixed" = € popust
+    const COUPONS = {
+      "WALL20": { type:"percent", value:20, active:true, note:"20% off total" },
+      "WALL5": { type:"fixed", value:5, active:true, note:"5€ off" }
+      // dodaj svoje: "MOJAKODA": { type:"percent", value:20, active:true, note:"20% off" }
+    };
+
+    // 🔹 “DATABASE” – TU LAHKO DODAŠ STARE NAKUPE
+    const INITIAL_ORDERS = [
+      // Primer:
+      {
+        id: "1",
+        email: "stric@gmail.com",
+        method: "paypal",
+        eur: 9.99,
+        baseEur: 9.99,
+        millions: 2150,
+        couponCode: "WALL10",
+        couponText: "Preloaded example order",
+        createdAt: "2025-01-01 15:30",
+        status: "completed",
+        messages: [
+          { who: "System", text: "Order created (preloaded)." },
+          { who: "System", text: "Marked as completed — demo." }
+        ]
+      },
+            {
+        id: "2",
+        email: "ghost@gmail.com",
+        method: "paypal",
+        eur: 9.99,
+        baseEur: 9.99,
+        millions: 2150,
+        couponCode: "WALL10",
+        couponText: "Preloaded example order",
+        createdAt: "2025-01-01 15:30",
+        status: "completed",
+        messages: [
+          { who: "System", text: "Order created (preloaded)." },
+          { who: "System", text: "Marked as completed — demo." }
+        ]
+      },
+            {
+        id: "3",
+        email: "jakob@gmail.com",
+        method: "paypal",
+        eur: 9.99,
+        baseEur: 9.99,
+        millions: 2150,
+        couponCode: "WALL10",
+        couponText: "Preloaded example order",
+        createdAt: "2025-01-01 15:30",
+        status: "completed",
+        messages: [
+          { who: "System", text: "Order created (preloaded)." },
+          { who: "System", text: "Marked as completed — demo." }
+        ]
+      }
+      // Dodaj svoje objekte tukaj po istem formatu.
+    ];
+
     const rows = [
       {priceId: 'price1', qtyId: 'qty1', totalId: 'total1'},
       {priceId: 'price2', qtyId: 'qty2', totalId: 'total2'},
@@ -858,6 +956,15 @@
     const orders = [];
     const vouches = [];
     let selectedRating = 0;
+
+    // Trenutne vsote + kupon
+    let currentTotals = {
+      baseMillions: 0,
+      baseEur: 0,
+      finalEur: 0,
+      activeCoupon: null,
+      couponText: ""
+    };
 
     // TAB NAVIGATION
     const navLinks = document.querySelectorAll('.nav a[data-nav]');
@@ -877,16 +984,15 @@
         showSection(target);
       });
     });
-    // start on home
-    showSection('home');
+    showSection('home'); // start
 
-    // CALCULATOR
+    // CALC
     function toNumber(value){
       const n = parseFloat(value);
       return isNaN(n) ? 0 : n;
     }
 
-    function updateTotals(){
+    function recalcBaseTotals(){
       let sumMillions = 0;
       rows.forEach(row=>{
         const price = toNumber(document.getElementById(row.priceId).value);
@@ -895,21 +1001,99 @@
         sumMillions += total;
         document.getElementById(row.totalId).value = total.toFixed(2);
       });
-      document.getElementById('grandMillions').textContent = sumMillions.toFixed(2);
-      const euros = sumMillions / EURO_RATE;
-      document.getElementById('grandEUR').textContent = euros.toFixed(2) + ' €';
+      const baseEur = sumMillions / EURO_RATE;
+
+      currentTotals.baseMillions = sumMillions;
+      currentTotals.baseEur = baseEur;
+
+      // če kupon ni aktiven, final = base
+      if(!currentTotals.activeCoupon){
+        currentTotals.finalEur = baseEur;
+      }
+
+      updateTotalsUI();
+    }
+
+    function updateTotalsUI(){
+      document.getElementById('grandMillions').textContent = currentTotals.baseMillions.toFixed(2);
+      document.getElementById('grandEUR').textContent = currentTotals.baseEur.toFixed(2) + ' €';
+      document.getElementById('finalEUR').textContent = currentTotals.finalEur.toFixed(2) + ' €';
     }
 
     rows.forEach(row=>{
-      document.getElementById(row.priceId).addEventListener('input', updateTotals);
-      document.getElementById(row.qtyId).addEventListener('input', updateTotals);
+      document.getElementById(row.priceId).addEventListener('input', ()=>{
+        currentTotals.activeCoupon = null;
+        currentTotals.couponText = "";
+        document.getElementById('couponCode').value = "";
+        document.getElementById('couponMsg').textContent = "";
+        recalcBaseTotals();
+      });
+      document.getElementById(row.qtyId).addEventListener('input', ()=>{
+        currentTotals.activeCoupon = null;
+        currentTotals.couponText = "";
+        document.getElementById('couponCode').value = "";
+        document.getElementById('couponMsg').textContent = "";
+        recalcBaseTotals();
+      });
     });
-    updateTotals();
+
+    recalcBaseTotals();
 
     function validateEmail(email){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
+    // COUPON APPLY
+    document.getElementById('applyCouponBtn').addEventListener('click', ()=>{
+      const codeRaw = document.getElementById('couponCode').value.trim();
+      const msgBox = document.getElementById('couponMsg');
+      msgBox.textContent = "";
+
+      if(!codeRaw){
+        currentTotals.activeCoupon = null;
+        currentTotals.finalEur = currentTotals.baseEur;
+        currentTotals.couponText = "";
+        msgBox.style.color = 'var(--muted)';
+        msgBox.textContent = "No coupon code applied.";
+        updateTotalsUI();
+        return;
+      }
+
+      const code = codeRaw.toUpperCase();
+      const coupon = COUPONS[code];
+
+      if(!coupon || !coupon.active){
+        currentTotals.activeCoupon = null;
+        currentTotals.finalEur = currentTotals.baseEur;
+        currentTotals.couponText = "";
+        msgBox.style.color = 'var(--danger)';
+        msgBox.textContent = "Invalid or inactive coupon.";
+        updateTotalsUI();
+        return;
+      }
+
+      const base = currentTotals.baseEur;
+      let final = base;
+
+      if(coupon.type === "percent"){
+        const disc = base * (coupon.value / 100);
+        final = Math.max(0, base - disc);
+        currentTotals.couponText = `Coupon ${code}: -${coupon.value}% (${disc.toFixed(2)} €)`;
+      }else if(coupon.type === "fixed"){
+        const disc = coupon.value;
+        final = Math.max(0, base - disc);
+        currentTotals.couponText = `Coupon ${code}: -${disc.toFixed(2)} €`;
+      }
+
+      currentTotals.activeCoupon = code;
+      currentTotals.finalEur = final;
+
+      msgBox.style.color = 'var(--success)';
+      msgBox.textContent = currentTotals.couponText;
+      updateTotalsUI();
+    });
+
+    // ORDERS + VOUCHES “DB”
     function renderOrders(){
       const wrapper = document.getElementById('ordersWrapper');
       wrapper.innerHTML = '';
@@ -918,7 +1102,7 @@
         const empty = document.createElement('div');
         empty.style.fontSize = '12px';
         empty.style.color = getComputedStyle(document.body).getPropertyValue('--muted');
-        empty.textContent = 'No orders in this browser yet. Place an order in the Boost tab.';
+        empty.textContent = 'No orders in this browser yet. Place an order in the Boost tab or add INITIAL_ORDERS in the script.';
         wrapper.appendChild(empty);
         return;
       }
@@ -939,21 +1123,29 @@
         status.className = 'order-status' + (order.status === 'completed' ? ' complete' : '');
         status.textContent = order.status === 'completed' ? 'Completed' : 'Pending';
         header.appendChild(status);
-
         card.appendChild(header);
 
         const meta = document.createElement('div');
         meta.className = 'order-meta';
+        let extraCoupon = '';
+        if(order.couponCode){
+          extraCoupon = ' • coupon: ' + order.couponCode;
+        }
         meta.innerHTML =
           '<strong>Email:</strong> ' + order.email + ' • ' +
-          '<strong>Method:</strong> ' + order.method.toUpperCase() + ' • ' +
-          '<strong>Total:</strong> ' + order.eur.toFixed(2) + ' € (' + order.millions.toFixed(2) + 'M)';
+          '<strong>Method:</strong> ' + order.method.toUpperCase() + extraCoupon;
         card.appendChild(meta);
 
         const meta2 = document.createElement('div');
         meta2.className = 'order-meta';
-        meta2.textContent = 'Created at: ' + order.createdAt;
+        meta2.textContent = 'Base: ' + order.baseEur.toFixed(2) +
+          ' €  → Final: ' + order.eur.toFixed(2) + ' € (' + order.millions.toFixed(2) + 'M)';
         card.appendChild(meta2);
+
+        const meta3 = document.createElement('div');
+        meta3.className = 'order-meta';
+        meta3.textContent = 'Created at: ' + order.createdAt;
+        card.appendChild(meta3);
 
         const chatBlock = document.createElement('div');
         chatBlock.className = 'order-chat';
@@ -1068,10 +1260,9 @@
     // BUY / CREATE ORDER
     document.getElementById('buyBtn').addEventListener('click', ()=>{
       const email = document.getElementById('supercellEmail').value.trim();
-      const grandEurText = document.getElementById('grandEUR').textContent.replace('€','').trim();
-      const grandEur = parseFloat(grandEurText) || 0;
-      const grandMillionsText = document.getElementById('grandMillions').textContent.trim();
-      const grandMillions = parseFloat(grandMillionsText) || 0;
+      const baseEur = currentTotals.baseEur;
+      const finalEur = currentTotals.finalEur;
+      const millions = currentTotals.baseMillions;
 
       const methodEl = document.querySelector('input[name="payMethod"]:checked');
       const msgBox = document.getElementById('orderMessage');
@@ -1082,7 +1273,7 @@
       methodError.style.display = 'none';
       msgBox.style.display = 'none';
 
-      if(grandEur <= 0){
+      if(finalEur <= 0){
         alert('Please fill wall prices and quantities first.');
         return;
       }
@@ -1106,8 +1297,11 @@
         id,
         email,
         method,
-        eur: grandEur,
-        millions: grandMillions,
+        eur: finalEur,
+        baseEur: baseEur,
+        millions: millions,
+        couponCode: currentTotals.activeCoupon,
+        couponText: currentTotals.couponText,
         createdAt,
         status: 'pending',
         messages: [
@@ -1117,7 +1311,7 @@
       orders.push(order);
 
       if(method === 'paypal'){
-        const eurosRounded = grandEur.toFixed(2);
+        const eurosRounded = finalEur.toFixed(2);
         msg =
           'PAYMENT METHOD: PayPal\n' +
           'Amount: ' + eurosRounded + ' €\n' +
@@ -1133,7 +1327,7 @@
       } else {
         msg =
           'PAYMENT METHOD: Paysafecard\n' +
-          'Amount: ' + grandEur.toFixed(2) + ' € (215 millions = 1 €)\n' +
+          'Amount: ' + finalEur.toFixed(2) + ' € (215 millions = 1 €)\n' +
           'Supercell ID email: ' + email + '\n\n' +
           '1) Buy a Paysafecard for at least this amount.\n' +
           '2) Send the Paysafecard code + your Supercell ID email to booster (Discord / email).\n' +
@@ -1182,7 +1376,12 @@
       renderVouches();
     });
 
-    // init
+    // INIT preloaded orders
+    INITIAL_ORDERS.forEach(o=>{
+      // clone
+      orders.push(JSON.parse(JSON.stringify(o)));
+    });
+
     renderOrders();
     renderVouches();
   })();
