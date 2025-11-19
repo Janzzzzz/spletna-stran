@@ -127,7 +127,8 @@
       margin-bottom:4px;
     }
     .input,
-    .output{
+    .output,
+    .text-input{
       width:100%;
       padding:10px 12px;
       border-radius:10px;
@@ -180,8 +181,25 @@
       color:#475569;
     }
 
-    .buy-btn{
+    .buy-section{
       margin-top:18px;
+      padding-top:14px;
+      border-top:1px dashed #c3d7f7;
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:16px;
+      align-items:center;
+    }
+    .pay-methods{
+      font-size:13px;
+      color:#475569;
+    }
+    .pay-methods label{
+      margin-right:12px;
+    }
+
+    .buy-btn{
+      width:100%;
       padding:12px 30px;
       border-radius:999px;
       border:none;
@@ -200,6 +218,24 @@
       box-shadow:0 2px 10px rgba(11,99,198,0.3);
     }
 
+    .order-note{
+      margin-top:10px;
+      font-size:12px;
+      color:#64748b;
+    }
+
+    .order-message{
+      margin-top:14px;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:10px;
+      background:#e0f2fe;
+      border:1px solid #bae6fd;
+      color:#0f172a;
+      display:none;
+      white-space:pre-line;
+    }
+
     @media (max-width:700px){
       .header{
         flex-direction:column;
@@ -208,6 +244,9 @@
       }
       .row-header,
       .row{
+        grid-template-columns:1fr;
+      }
+      .buy-section{
         grid-template-columns:1fr;
       }
     }
@@ -308,7 +347,33 @@
         </div>
       </div>
 
-      <button class="buy-btn" type="button">BUY</button>
+      <!-- BUY / PAYMENT SECTION -->
+      <div class="buy-section" id="orders">
+        <div>
+          <div class="label-small">Your nickname / email</div>
+          <input type="text" id="buyerContact" class="text-input" placeholder="e.g. Discord tag or email">
+          <div class="order-note">
+            We will contact you here to confirm your order and boosting details.
+          </div>
+          <div class="pay-methods" style="margin-top:10px;">
+            <div class="label-small">Payment method</div>
+            <label>
+              <input type="radio" name="payMethod" value="paypal">
+              PayPal
+            </label>
+            <label>
+              <input type="radio" name="payMethod" value="paysafecard">
+              Paysafecard
+            </label>
+          </div>
+        </div>
+        <div>
+          <button class="buy-btn" type="button" id="buyBtn">BUY</button>
+        </div>
+      </div>
+
+      <div class="order-message" id="orderMessage"></div>
+
     </section>
 
   </div>
@@ -351,6 +416,53 @@
     });
 
     update();
+
+    // BUY / PAYMENT HANDLING (front-end only)
+    document.getElementById('buyBtn').addEventListener('click', function(){
+      const contact = document.getElementById('buyerContact').value.trim();
+      const grandEurText = document.getElementById('grandEUR').textContent.replace('€','').trim();
+      const grandEur = parseFloat(grandEurText) || 0;
+
+      const methodEl = document.querySelector('input[name="payMethod"]:checked');
+      const messageBox = document.getElementById('orderMessage');
+
+      if(grandEur <= 0){
+        alert('Please fill wall prices and quantities first.');
+        return;
+      }
+      if(!contact){
+        alert('Please enter your nickname or email so we can contact you.');
+        return;
+      }
+      if(!methodEl){
+        alert('Please select a payment method (PayPal or Paysafecard).');
+        return;
+      }
+
+      const method = methodEl.value;
+      let msg = '';
+
+      if(method === 'paypal'){
+        msg =
+          'PAYMENT METHOD: PayPal\\n' +
+          'Amount: ' + grandEur.toFixed(2) + ' €\\n\\n' +
+          '1) Send the payment to our PayPal address: zupanjan852@gmail.com\\n' +
+          '2) In the note, include your contact: ' + contact + '\\n' +
+          '3) After payment, we will contact you to start the boost.';
+        // Če želiš redirect na PayPal.me ali Checkout link, zamenjaj spodnjo vrstico:
+        // window.open('https://paypal.me/YOURPAYPALNAME/' + grandEur.toFixed(2), '_blank');
+      } else if(method === 'paysafecard'){
+        msg =
+          'PAYMENT METHOD: Paysafecard\\n' +
+          'Amount: ' + grandEur.toFixed(2) + ' € (215 millions = 1 €)\\n\\n' +
+          '1) Buy a Paysafecard for at least this amount.\\n' +
+          '2) Send the Paysafecard code and your contact (' + contact + ') to: janzupan222@gmail.com\\n' +
+          '3) We will confirm the code and then start the boost.';
+      }
+
+      messageBox.textContent = msg;
+      messageBox.style.display = 'block';
+    });
   })();
 </script>
 
