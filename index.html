@@ -7,12 +7,8 @@
   <style>
     :root{
       --bg:#020617;
-      --bg-soft:#020617;
-      --card:#020617;
-      --border:#1f2937;
       --blue-main:#38bdf8;
       --blue-strong:#0ea5e9;
-      --blue-soft:#0b1120;
       --text-main:#e5e7eb;
       --muted:#9ca3af;
       --danger:#f97373;
@@ -62,10 +58,7 @@
       pointer-events:none;
     }
 
-    .inner{
-      position:relative;
-      z-index:1;
-    }
+    .inner{position:relative;z-index:1;}
 
     /* HEADER */
     .header{
@@ -120,6 +113,7 @@
       align-items:center;
       gap:6px;
       transition:background .15s ease,color .15s ease,transform .1s ease;
+      cursor:pointer;
     }
     .nav a span.dot{
       width:6px;
@@ -137,14 +131,18 @@
       background:var(--blue-main);
     }
 
-    /* HERO */
+    /* SECTIONS (tabs) */
+    .section-block{display:none;}
+    .section-block.active{display:block;}
+
+    /* HERO / HOME */
     .hero{
       display:flex;
       justify-content:space-between;
       gap:24px;
       flex-wrap:wrap;
       align-items:flex-start;
-      margin-bottom:24px;
+      margin-bottom:18px;
     }
     .hero-left-title{
       font-size:26px;
@@ -178,7 +176,6 @@
       border:1px solid rgba(56,189,248,0.5);
       font-weight:600;
     }
-
     .hero-right-chip{
       padding:10px 14px;
       border-radius:16px;
@@ -188,10 +185,7 @@
       color:var(--muted);
       max-width:260px;
     }
-    .hero-right-chip strong{
-      color:#e5e7eb;
-      font-weight:700;
-    }
+    .hero-right-chip strong{color:#e5e7eb;font-weight:700;}
 
     /* CARD / GENERIC */
     .card{
@@ -201,6 +195,7 @@
       background:radial-gradient(circle at top left, rgba(56,189,248,0.08) 0, rgba(15,23,42,1) 55%);
       padding:18px 18px 20px;
       box-shadow:0 16px 40px rgba(15,23,42,0.9);
+      font-size:13px;
     }
 
     .section-title-row{
@@ -233,20 +228,17 @@
       color:var(--muted);
       margin-bottom:4px;
     }
-
     .row{
       display:grid;
       grid-template-columns:2fr 1fr 1.4fr;
       gap:10px;
       margin-bottom:10px;
     }
-
     .input-wrap{
       display:flex;
       flex-direction:column;
       gap:4px;
     }
-
     label.small{
       font-size:11px;
       color:var(--muted);
@@ -279,7 +271,6 @@
     .textarea::placeholder{
       color:#6b7280;
     }
-
     .textarea{
       resize:vertical;
       min-height:50px;
@@ -299,7 +290,6 @@
       font-size:11px;
       color:var(--muted);
     }
-
     .totals{
       margin-top:14px;
       padding-top:12px;
@@ -341,7 +331,6 @@
       gap:14px;
       align-items:center;
     }
-
     .pay-label{
       font-size:11px;
       text-transform:uppercase;
@@ -349,7 +338,6 @@
       color:var(--muted);
       margin-bottom:5px;
     }
-
     .radio-row{
       display:flex;
       flex-wrap:wrap;
@@ -367,10 +355,7 @@
       background:rgba(15,23,42,0.9);
       cursor:pointer;
     }
-    .radio-row input{
-      accent-color:var(--blue-main);
-    }
-
+    .radio-row input{accent-color:var(--blue-main);}
     .order-note{
       margin-top:7px;
       font-size:11px;
@@ -395,9 +380,7 @@
       text-transform:uppercase;
       letter-spacing:0.12em;
     }
-    .buy-btn span.icon{
-      font-size:16px;
-    }
+    .buy-btn span.icon{font-size:16px;}
     .buy-btn:hover{
       transform:translateY(-1px);
       box-shadow:0 18px 40px rgba(8,47,73,1);
@@ -418,7 +401,6 @@
       white-space:pre-line;
       display:none;
     }
-
     .error{
       color:var(--danger);
       font-size:11px;
@@ -500,10 +482,7 @@
       color:var(--muted);
       margin-bottom:4px;
     }
-    .order-meta strong{
-      color:#e5e7eb;
-    }
-
+    .order-meta strong{color:#e5e7eb;}
     .order-chat{
       margin-top:6px;
       padding-top:6px;
@@ -515,24 +494,15 @@
       font-size:11px;
       margin-bottom:6px;
     }
-    .chat-line{
-      margin-bottom:3px;
-    }
-    .chat-line span.who{
-      font-weight:600;
-      color:var(--blue-main);
-    }
-    .chat-line.system span.who{
-      color:var(--muted);
-    }
+    .chat-line{margin-bottom:3px;}
+    .chat-line span.who{font-weight:600;color:var(--blue-main);}
+    .chat-line.system span.who{color:var(--muted);}
     .chat-input-row{
       display:flex;
       gap:6px;
       margin-top:4px;
     }
-    .chat-input{
-      flex:1;
-    }
+    .chat-input{flex:1;}
     .chat-send-btn{
       padding:6px 10px;
       border-radius:999px;
@@ -543,7 +513,6 @@
       font-weight:600;
       cursor:pointer;
     }
-
     .complete-btn{
       margin-top:6px;
       padding:5px 9px;
@@ -573,7 +542,6 @@
       color:#fbbf24;
       transform:translateY(-1px);
     }
-
     .vouches-wrapper{
       display:flex;
       flex-direction:column;
@@ -602,9 +570,7 @@
       font-size:12px;
       color:#fbbf24;
     }
-    .vouch-text{
-      font-size:12px;
-    }
+    .vouch-text{font-size:12px;}
 
     @media (max-width:800px){
       .header{
@@ -641,221 +607,238 @@
         </div>
 
         <nav class="nav">
-          <a href="#home"><span class="dot"></span> Home</a>
-          <a href="#news"><span class="dot"></span> News</a>
-          <a href="#boost" class="active"><span class="dot"></span> Boost</a>
-          <a href="#orders"><span class="dot"></span> Orders</a>
-          <a href="#vouches"><span class="dot"></span> Vouches</a>
+          <a data-nav="home" class="active"><span class="dot"></span> Home</a>
+          <a data-nav="news"><span class="dot"></span> News</a>
+          <a data-nav="boost"><span class="dot"></span> Boost</a>
+          <a data-nav="orders"><span class="dot"></span> Orders</a>
+          <a data-nav="vouches"><span class="dot"></span> Vouches</a>
         </nav>
       </header>
 
-      <!-- HERO -->
-      <section class="hero" id="home">
-        <div>
-          <div class="hero-left-title">Boost your walls</div>
-          <div class="hero-left-sub">
-            Enter wall prices in <strong>millions</strong>, quantity and get exact total in millions and €.
-          </div>
-          <div class="hero-pill">
-            <span class="badge">1 € = 215M</span>
-            Super clear wall boosting calculator
-          </div>
-        </div>
-        <div class="hero-right-chip">
-          <strong>Note:</strong> This page calculates and tracks your order locally in this browser.
-          Payment is via <strong>PayPal (zupp1zupp1)</strong> or <strong>Paysafecard</strong>.
-        </div>
-      </section>
-
-      <!-- CALCULATOR + ORDER -->
-      <section class="card" id="boost">
-        <div class="section-title-row">
-          <div class="section-title">Wall price setup</div>
-          <div class="section-sub">Fill up to 3 wall levels. Prices MUST be in millions (e.g. 3 = 3,000,000).</div>
-        </div>
-
-        <div class="row-header">
-          <div>Wall price (in millions)</div>
-          <div>Quantity</div>
-          <div>Total millions for walls</div>
-        </div>
-
-        <!-- Row 1 -->
-        <div class="row">
-          <div class="input-wrap">
-            <label class="small">Wall price 1</label>
-            <input type="number" id="price1" class="input" min="0" step="0.01" placeholder="e.g. 3 (million)">
-          </div>
-          <div class="input-wrap">
-            <label class="small">Quantity 1</label>
-            <input type="number" id="qty1" class="input" min="0" step="1" placeholder="number of walls">
-          </div>
-          <div class="input-wrap">
-            <label class="small">Total 1 (millions)</label>
-            <input type="text" id="total1" class="output" readonly value="0.00">
-          </div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="row">
-          <div class="input-wrap">
-            <label class="small">Wall price 2</label>
-            <input type="number" id="price2" class="input" min="0" step="0.01" placeholder="e.g. 5 (million)">
-          </div>
-          <div class="input-wrap">
-            <label class="small">Quantity 2</label>
-            <input type="number" id="qty2" class="input" min="0" step="1" placeholder="number of walls">
-          </div>
-          <div class="input-wrap">
-            <label class="small">Total 2 (millions)</label>
-            <input type="text" id="total2" class="output" readonly value="0.00">
-          </div>
-        </div>
-
-        <!-- Row 3 -->
-        <div class="row">
-          <div class="input-wrap">
-            <label class="small">Wall price 3</label>
-            <input type="number" id="price3" class="input" min="0" step="0.01" placeholder="e.g. 7 (million)">
-          </div>
-          <div class="input-wrap">
-            <label class="small">Quantity 3</label>
-            <input type="number" id="qty3" class="input" min="0" step="1" placeholder="number of walls">
-          </div>
-          <div class="input-wrap">
-            <label class="small">Total 3 (millions)</label>
-            <input type="text" id="total3" class="output" readonly value="0.00">
-          </div>
-        </div>
-
-        <div class="info">
-          For each row: <strong>walls price × quantity = total millions</strong>. All totals are then added and divided by 215 to get €.
-        </div>
-
-        <!-- TOTALS -->
-        <div class="totals">
+      <!-- HOME SECTION -->
+      <section class="section-block active" data-section="home">
+        <div class="hero">
           <div>
-            <div class="total-label">Total millions (all walls)</div>
-            <div class="total-millions" id="grandMillions">0.00</div>
-            <div class="rate">215 millions = 1 €</div>
-          </div>
-          <div>
-            <div class="total-label">Total (€)</div>
-            <div class="total-eur" id="grandEUR">0.00 €</div>
-          </div>
-        </div>
-
-        <!-- ORDER / PAYMENT -->
-        <div class="order-grid" id="orders">
-          <div>
-            <div class="pay-label">Supercell ID email</div>
-            <input type="email" id="supercellEmail" class="text-input" placeholder="your-supercell-id@example.com">
-            <div id="emailError" class="error">Please enter a valid Supercell ID email.</div>
-
-            <div class="pay-label" style="margin-top:10px;">Payment method</div>
-            <div class="radio-row">
-              <label>
-                <input type="radio" name="payMethod" value="paypal">
-                <span>PayPal</span>
-              </label>
-              <label>
-                <input type="radio" name="payMethod" value="paysafecard">
-                <span>Paysafecard</span>
-              </label>
+            <div class="hero-left-title">Boost your walls</div>
+            <div class="hero-left-sub">
+              Welcome to <strong>Wall Boosting</strong>. Use the Boost tab to calculate wall costs and place your order.
             </div>
-            <div id="methodError" class="error">Please select a payment method.</div>
-
-            <div class="order-note">
-              We only need your Supercell ID email to log in and boost. No password is stored in this tool.
+            <div class="hero-pill">
+              <span class="badge">1 € = 215M</span>
+              Super clear wall boosting calculator
             </div>
           </div>
-
-          <div>
-            <button class="buy-btn" type="button" id="buyBtn">
-              <span class="icon">⚡</span> PLACE ORDER
-            </button>
+          <div class="hero-right-chip">
+            <strong>Info:</strong> Orders, chat and vouches are stored only in this browser session (demo version).
+            Payment is via <strong>PayPal (zupp1zupp1)</strong> or <strong>Paysafecard</strong>.
           </div>
         </div>
 
-        <div class="order-message" id="orderMessage"></div>
-
+        <div class="card">
+          <div class="section-title-row">
+            <div class="section-title">How to use</div>
+            <div class="section-sub">3 simple steps to get your walls boosted.</div>
+          </div>
+          <ol style="margin:0;padding-left:16px;font-size:13px;color:var(--muted);">
+            <li>Go to <strong>Boost</strong> tab and fill wall prices in millions + quantities.</li>
+            <li>Enter your <strong>Supercell ID email</strong>, choose PayPal or Paysafecard and click <strong>PLACE ORDER</strong>.</li>
+            <li>Check the <strong>Orders</strong> tab to see your order, use the chat, and after finishing leave a <strong>Vouch</strong>.</li>
+          </ol>
+        </div>
       </section>
 
       <!-- NEWS SECTION -->
-      <section class="card" id="news" style="margin-top:18px;">
-        <div class="section-title-row">
-          <div class="section-title">News & updates</div>
-          <div class="section-sub">Small info board you can update in the code.</div>
-        </div>
+      <section class="section-block" data-section="news">
+        <div class="card">
+          <div class="section-title-row">
+            <div class="section-title">News & updates</div>
+            <div class="section-sub">Small info board you can update in the code.</div>
+          </div>
 
-        <div class="news-list">
-          <div class="news-card">
-            <div class="news-tag">Update</div>
-            <div class="news-title">New calculator layout</div>
-            <div class="news-date">2025-01-01</div>
-            <div>Modern blue theme & full order tracking added.</div>
-          </div>
-          <div class="news-card">
-            <div class="news-tag">Info</div>
-            <div class="news-title">Payment methods</div>
-            <div class="news-date">Always current</div>
-            <div>We support PayPal (zupp1zupp1) and Paysafecard codes.</div>
-          </div>
-          <div class="news-card">
-            <div class="news-tag">Tip</div>
-            <div class="news-title">Best way to order</div>
-            <div class="news-date">Anytime</div>
-            <div>Fill the calculator, place order, then pay with PayPal link or send Paysafecard.</div>
+          <div class="news-list">
+            <div class="news-card">
+              <div class="news-tag">Update</div>
+              <div class="news-title">New calculator layout</div>
+              <div class="news-date">2025-01-01</div>
+              <div>Modern blue theme & full order tracking added.</div>
+            </div>
+            <div class="news-card">
+              <div class="news-tag">Info</div>
+              <div class="news-title">Payment methods</div>
+              <div class="news-date">Always current</div>
+              <div>We support PayPal (<strong>zupp1zupp1</strong>) and Paysafecard codes.</div>
+            </div>
+            <div class="news-card">
+              <div class="news-tag">Tip</div>
+              <div class="news-title">Best way to order</div>
+              <div class="news-date">Anytime</div>
+              <div>Fill the calculator, place order, then pay with PayPal link or send Paysafecard.</div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ORDERS LIST SECTION -->
-      <section class="card" id="orders-list" style="margin-top:18px;">
-        <div class="section-title-row">
-          <div class="section-title">Your orders (this browser)</div>
-          <div class="section-sub">Orders are stored only in this browser session (local preview, not real database).</div>
-        </div>
+      <!-- BOOST / CALCULATOR SECTION -->
+      <section class="section-block" data-section="boost">
+        <section class="card">
+          <div class="section-title-row">
+            <div class="section-title">Wall price setup</div>
+            <div class="section-sub">Fill up to 3 wall levels. Prices MUST be in millions (e.g. 3 = 3,000,000).</div>
+          </div>
 
-        <div id="ordersWrapper" class="orders-wrapper">
-          <!-- filled by JS -->
-        </div>
+          <div class="row-header">
+            <div>Wall price (in millions)</div>
+            <div>Quantity</div>
+            <div>Total millions for walls</div>
+          </div>
+
+          <!-- Row 1 -->
+          <div class="row">
+            <div class="input-wrap">
+              <label class="small">Wall price 1</label>
+              <input type="number" id="price1" class="input" min="0" step="0.01" placeholder="e.g. 3 (million)">
+            </div>
+            <div class="input-wrap">
+              <label class="small">Quantity 1</label>
+              <input type="number" id="qty1" class="input" min="0" step="1" placeholder="number of walls">
+            </div>
+            <div class="input-wrap">
+              <label class="small">Total 1 (millions)</label>
+              <input type="text" id="total1" class="output" readonly value="0.00">
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="row">
+            <div class="input-wrap">
+              <label class="small">Wall price 2</label>
+              <input type="number" id="price2" class="input" min="0" step="0.01" placeholder="e.g. 5 (million)">
+            </div>
+            <div class="input-wrap">
+              <label class="small">Quantity 2</label>
+              <input type="number" id="qty2" class="input" min="0" step="1" placeholder="number of walls">
+            </div>
+            <div class="input-wrap">
+              <label class="small">Total 2 (millions)</label>
+              <input type="text" id="total2" class="output" readonly value="0.00">
+            </div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="row">
+            <div class="input-wrap">
+              <label class="small">Wall price 3</label>
+              <input type="number" id="price3" class="input" min="0" step="0.01" placeholder="e.g. 7 (million)">
+            </div>
+            <div class="input-wrap">
+              <label class="small">Quantity 3</label>
+              <input type="number" id="qty3" class="input" min="0" step="1" placeholder="number of walls">
+            </div>
+            <div class="input-wrap">
+              <label class="small">Total 3 (millions)</label>
+              <input type="text" id="total3" class="output" readonly value="0.00">
+            </div>
+          </div>
+
+          <div class="info">
+            For each row: <strong>walls price × quantity = total millions</strong>. All totals are then added and divided by 215 to get €.
+          </div>
+
+          <!-- TOTALS -->
+          <div class="totals">
+            <div>
+              <div class="total-label">Total millions (all walls)</div>
+              <div class="total-millions" id="grandMillions">0.00</div>
+              <div class="rate">215 millions = 1 €</div>
+            </div>
+            <div>
+              <div class="total-label">Total (€)</div>
+              <div class="total-eur" id="grandEUR">0.00 €</div>
+            </div>
+          </div>
+
+          <!-- ORDER / PAYMENT -->
+          <div class="order-grid">
+            <div>
+              <div class="pay-label">Supercell ID email</div>
+              <input type="email" id="supercellEmail" class="text-input" placeholder="your-supercell-id@example.com">
+              <div id="emailError" class="error">Please enter a valid Supercell ID email.</div>
+
+              <div class="pay-label" style="margin-top:10px;">Payment method</div>
+              <div class="radio-row">
+                <label>
+                  <input type="radio" name="payMethod" value="paypal">
+                  <span>PayPal</span>
+                </label>
+                <label>
+                  <input type="radio" name="payMethod" value="paysafecard">
+                  <span>Paysafecard</span>
+                </label>
+              </div>
+              <div id="methodError" class="error">Please select a payment method.</div>
+
+              <div class="order-note">
+                We only need your Supercell ID email to log in and boost. No password is stored in this tool.
+              </div>
+            </div>
+
+            <div>
+              <button class="buy-btn" type="button" id="buyBtn">
+                <span class="icon">⚡</span> PLACE ORDER
+              </button>
+            </div>
+          </div>
+
+          <div class="order-message" id="orderMessage"></div>
+        </section>
+      </section>
+
+      <!-- ORDERS SECTION -->
+      <section class="section-block" data-section="orders">
+        <section class="card">
+          <div class="section-title-row">
+            <div class="section-title">Your orders (this browser)</div>
+            <div class="section-sub">Orders are stored only in this browser session (local preview, not real database).</div>
+          </div>
+
+          <div id="ordersWrapper" class="orders-wrapper"></div>
+        </section>
       </section>
 
       <!-- VOUCHES SECTION -->
-      <section class="card" id="vouches" style="margin-top:18px;">
-        <div class="section-title-row">
-          <div class="section-title">Vouches</div>
-          <div class="section-sub">After your order is completed, leave a rating & vouch.</div>
-        </div>
+      <section class="section-block" data-section="vouches">
+        <section class="card">
+          <div class="section-title-row">
+            <div class="section-title">Vouches</div>
+            <div class="section-sub">After your order is completed, leave a rating & vouch.</div>
+          </div>
 
-        <div class="input-wrap">
-          <label class="small">Supercell ID email (used for your last order)</label>
-          <input type="email" id="vouchEmail" class="text-input" placeholder="same email you used for your order">
-        </div>
+          <div class="input-wrap">
+            <label class="small">Supercell ID email (used for your last order)</label>
+            <input type="email" id="vouchEmail" class="text-input" placeholder="same email you used for your order">
+          </div>
 
-        <div class="pay-label" style="margin-top:8px;">Rating</div>
-        <div class="stars" id="stars">
-          <span class="star" data-val="1">★</span>
-          <span class="star" data-val="2">★</span>
-          <span class="star" data-val="3">★</span>
-          <span class="star" data-val="4">★</span>
-          <span class="star" data-val="5">★</span>
-        </div>
+          <div class="pay-label" style="margin-top:8px;">Rating</div>
+          <div class="stars" id="stars">
+            <span class="star" data-val="1">★</span>
+            <span class="star" data-val="2">★</span>
+            <span class="star" data-val="3">★</span>
+            <span class="star" data-val="4">★</span>
+            <span class="star" data-val="5">★</span>
+          </div>
 
-        <div class="input-wrap" style="margin-top:6px;">
-          <label class="small">Vouch / feedback</label>
-          <textarea id="vouchText" class="textarea" placeholder="Write your experience here..."></textarea>
-        </div>
+          <div class="input-wrap" style="margin-top:6px;">
+            <label class="small">Vouch / feedback</label>
+            <textarea id="vouchText" class="textarea" placeholder="Write your experience here..."></textarea>
+          </div>
 
-        <button class="buy-btn" type="button" id="vouchBtn" style="margin-top:10px; font-size:13px; letter-spacing:0.09em;">
-          <span class="icon">⭐</span> SUBMIT VOUCH
-        </button>
-        <div id="vouchError" class="error">Please fill email, choose rating and write a short vouch.</div>
+          <button class="buy-btn" type="button" id="vouchBtn" style="margin-top:10px; font-size:13px; letter-spacing:0.09em;">
+            <span class="icon">⭐</span> SUBMIT VOUCH
+          </button>
+          <div id="vouchError" class="error">Please fill email, choose rating and write a short vouch.</div>
 
-        <div class="vouches-wrapper" id="vouchesWrapper">
-          <!-- filled by JS -->
-        </div>
+          <div class="vouches-wrapper" id="vouchesWrapper"></div>
+        </section>
       </section>
 
     </div>
@@ -872,37 +855,56 @@
       {priceId: 'price3', qtyId: 'qty3', totalId: 'total3'}
     ];
 
-    const orders = [];   // local only
-    const vouches = [];  // local only
+    const orders = [];
+    const vouches = [];
     let selectedRating = 0;
 
+    // TAB NAVIGATION
+    const navLinks = document.querySelectorAll('.nav a[data-nav]');
+    const sections = document.querySelectorAll('.section-block');
+
+    function showSection(name){
+      navLinks.forEach(link=>{
+        link.classList.toggle('active', link.getAttribute('data-nav') === name);
+      });
+      sections.forEach(sec=>{
+        sec.classList.toggle('active', sec.getAttribute('data-section') === name);
+      });
+    }
+    navLinks.forEach(link=>{
+      link.addEventListener('click', ()=>{
+        const target = link.getAttribute('data-nav');
+        showSection(target);
+      });
+    });
+    // start on home
+    showSection('home');
+
+    // CALCULATOR
     function toNumber(value){
       const n = parseFloat(value);
       return isNaN(n) ? 0 : n;
     }
 
-    function update(){
+    function updateTotals(){
       let sumMillions = 0;
-
-      rows.forEach(function(row){
+      rows.forEach(row=>{
         const price = toNumber(document.getElementById(row.priceId).value);
         const qty   = toNumber(document.getElementById(row.qtyId).value);
         const total = price * qty;
         sumMillions += total;
         document.getElementById(row.totalId).value = total.toFixed(2);
       });
-
       document.getElementById('grandMillions').textContent = sumMillions.toFixed(2);
       const euros = sumMillions / EURO_RATE;
       document.getElementById('grandEUR').textContent = euros.toFixed(2) + ' €';
     }
 
-    rows.forEach(function(row){
-      document.getElementById(row.priceId).addEventListener('input', update);
-      document.getElementById(row.qtyId).addEventListener('input', update);
+    rows.forEach(row=>{
+      document.getElementById(row.priceId).addEventListener('input', updateTotals);
+      document.getElementById(row.qtyId).addEventListener('input', updateTotals);
     });
-
-    update();
+    updateTotals();
 
     function validateEmail(email){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -916,12 +918,12 @@
         const empty = document.createElement('div');
         empty.style.fontSize = '12px';
         empty.style.color = getComputedStyle(document.body).getPropertyValue('--muted');
-        empty.textContent = 'No orders in this browser yet. Place an order in the Boost section.';
+        empty.textContent = 'No orders in this browser yet. Place an order in the Boost tab.';
         wrapper.appendChild(empty);
         return;
       }
 
-      orders.slice().reverse().forEach(function(order){
+      orders.slice().reverse().forEach(order=>{
         const card = document.createElement('div');
         card.className = 'order-card';
 
@@ -953,7 +955,6 @@
         meta2.textContent = 'Created at: ' + order.createdAt;
         card.appendChild(meta2);
 
-        // Chat block
         const chatBlock = document.createElement('div');
         chatBlock.className = 'order-chat';
 
@@ -964,8 +965,7 @@
 
         const chatLog = document.createElement('div');
         chatLog.className = 'chat-log';
-
-        order.messages.forEach(function(m){
+        order.messages.forEach(m=>{
           const line = document.createElement('div');
           line.className = 'chat-line ' + (m.who === 'System' ? 'system' : '');
           const whoSpan = document.createElement('span');
@@ -975,7 +975,6 @@
           line.appendChild(document.createTextNode(m.text));
           chatLog.appendChild(line);
         });
-
         chatBlock.appendChild(chatLog);
 
         const chatRow = document.createElement('div');
@@ -989,15 +988,14 @@
         const chatBtn = document.createElement('button');
         chatBtn.className = 'chat-send-btn';
         chatBtn.textContent = 'Send';
-        chatBtn.addEventListener('click', function(){
+        chatBtn.addEventListener('click', ()=>{
           const text = chatInput.value.trim();
           if(!text) return;
-          order.messages.push({ who: 'You', text: text });
+          order.messages.push({ who:'You', text });
           chatInput.value = '';
           renderOrders();
         });
         chatRow.appendChild(chatBtn);
-
         chatBlock.appendChild(chatRow);
 
         const completeBtn = document.createElement('button');
@@ -1006,9 +1004,9 @@
         if(order.status === 'completed'){
           completeBtn.disabled = true;
         }else{
-          completeBtn.addEventListener('click', function(){
+          completeBtn.addEventListener('click', ()=>{
             order.status = 'completed';
-            order.messages.push({ who: 'System', text: 'Order marked as completed. You can now leave a vouch in the Vouches section.' });
+            order.messages.push({ who:'System', text:'Order marked as completed. You can now leave a vouch in the Vouches tab.' });
             renderOrders();
           });
         }
@@ -1017,6 +1015,12 @@
         card.appendChild(chatBlock);
         wrapper.appendChild(card);
       });
+
+      // autofill vouch email with last order
+      if(orders.length > 0){
+        const last = orders[orders.length - 1];
+        document.getElementById('vouchEmail').value = last.email;
+      }
     }
 
     function renderVouches(){
@@ -1033,7 +1037,7 @@
         return;
       }
 
-      vouches.slice().reverse().forEach(function(v){
+      vouches.slice().reverse().forEach(v=>{
         const card = document.createElement('div');
         card.className = 'vouch-card';
 
@@ -1061,8 +1065,8 @@
       });
     }
 
-    // BUY button
-    document.getElementById('buyBtn').addEventListener('click', function(){
+    // BUY / CREATE ORDER
+    document.getElementById('buyBtn').addEventListener('click', ()=>{
       const email = document.getElementById('supercellEmail').value.trim();
       const grandEurText = document.getElementById('grandEUR').textContent.replace('€','').trim();
       const grandEur = parseFloat(grandEurText) || 0;
@@ -1099,12 +1103,12 @@
       const createdAt = now.toLocaleString();
 
       const order = {
-        id: id,
-        email: email,
-        method: method,
+        id,
+        email,
+        method,
         eur: grandEur,
         millions: grandMillions,
-        createdAt: createdAt,
+        createdAt,
         status: 'pending',
         messages: [
           { who:'System', text:'Order created. Please complete payment and contact booster if needed.' }
@@ -1121,13 +1125,12 @@
           '1) A PayPal.me tab will open with the correct amount.\n' +
           '2) In the PayPal note, write your Supercell ID email again.\n' +
           '3) After payment, contact the booster (Discord/Email) and boosting will start.';
-
         msgBox.textContent = msg;
         msgBox.style.display = 'block';
 
         const paypalUrl = 'https://paypal.me/zupp1zupp1/' + eurosRounded;
         window.open(paypalUrl, '_blank');
-      } else if(method === 'paysafecard'){
+      } else {
         msg =
           'PAYMENT METHOD: Paysafecard\n' +
           'Amount: ' + grandEur.toFixed(2) + ' € (215 millions = 1 €)\n' +
@@ -1140,26 +1143,25 @@
       }
 
       renderOrders();
-      // scroll to orders section
-      document.getElementById('orders-list').scrollIntoView({behavior:'smooth'});
+      showSection('orders');
     });
 
-    // Stars rating
+    // STARS / VOUCHES
     const starContainer = document.getElementById('stars');
     const starElems = Array.from(starContainer.querySelectorAll('.star'));
 
-    starElems.forEach(function(star){
-      star.addEventListener('click', function(){
+    starElems.forEach(star=>{
+      star.addEventListener('click', ()=>{
         const val = parseInt(star.getAttribute('data-val'), 10);
         selectedRating = val;
-        starElems.forEach(function(s){
+        starElems.forEach(s=>{
           const sVal = parseInt(s.getAttribute('data-val'), 10);
           s.classList.toggle('active', sVal <= val);
         });
       });
     });
 
-    document.getElementById('vouchBtn').addEventListener('click', function(){
+    document.getElementById('vouchBtn').addEventListener('click', ()=>{
       const email = document.getElementById('vouchEmail').value.trim();
       const text = document.getElementById('vouchText').value.trim();
       const error = document.getElementById('vouchError');
@@ -1171,37 +1173,17 @@
         return;
       }
 
-      vouches.push({
-        email: email,
-        rating: selectedRating,
-        text: text
-      });
+      vouches.push({ email, rating: selectedRating, text });
 
-      // Clear form
       document.getElementById('vouchText').value = '';
       selectedRating = 0;
-      starElems.forEach(function(s){ s.classList.remove('active'); });
+      starElems.forEach(s=>s.classList.remove('active'));
 
       renderVouches();
     });
 
-    // Try to prefill vouch email with last order email
-    function syncVouchEmail(){
-      if(orders.length > 0){
-        const lastEmail = orders[orders.length - 1].email;
-        document.getElementById('vouchEmail').value = lastEmail;
-      }
-    }
-
-    // after each renderOrders, sync vouch email
-    const originalRenderOrders = renderOrders;
-    renderOrders = function(){
-      originalRenderOrders();
-      syncVouchEmail();
-    };
-
-    // initialize
-    originalRenderOrders();
+    // init
+    renderOrders();
     renderVouches();
   })();
 </script>
