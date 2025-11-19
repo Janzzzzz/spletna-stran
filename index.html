@@ -511,6 +511,12 @@
       margin-bottom:4px;
     }
     .order-meta strong{color:#e5e7eb;}
+    .order-actions{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      margin-top:4px;
+    }
     .order-chat{
       margin-top:6px;
       padding-top:6px;
@@ -531,7 +537,8 @@
       margin-top:4px;
     }
     .chat-input{flex:1;}
-    .chat-send-btn{
+    .chat-send-btn,
+    .open-chat-btn{
       padding:6px 10px;
       border-radius:999px;
       border:none;
@@ -542,7 +549,6 @@
       cursor:pointer;
     }
     .complete-btn{
-      margin-top:6px;
       padding:5px 9px;
       border-radius:999px;
       border:none;
@@ -599,6 +605,72 @@
       color:#fbbf24;
     }
     .vouch-text{font-size:12px;}
+
+    /* CHAT MODAL */
+    .chat-modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,0.85);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+    }
+    .chat-modal-backdrop.active{display:flex;}
+    .chat-modal{
+      width:90%;
+      max-width:600px;
+      max-height:80vh;
+      background:rgba(15,23,42,0.98);
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,0.5);
+      box-shadow:0 24px 60px rgba(15,23,42,1);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .chat-modal-header{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(148,163,184,0.4);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+    }
+    .chat-modal-title{
+      font-weight:600;
+    }
+    .chat-modal-body{
+      padding:10px 14px 6px;
+      font-size:12px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+    .chat-modal-log{
+      flex:1;
+      overflow-y:auto;
+      border-radius:10px;
+      padding:8px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.3);
+      margin-bottom:6px;
+    }
+    .chat-modal-input-row{
+      display:flex;
+      gap:6px;
+      margin-top:4px;
+    }
+    .close-chat-btn{
+      padding:6px 10px;
+      border-radius:999px;
+      border:none;
+      background:rgba(148,163,184,0.25);
+      color:var(--muted);
+      font-size:11px;
+      cursor:pointer;
+    }
 
     @media (max-width:800px){
       .header{
@@ -670,7 +742,7 @@
           <ol style="margin:0;padding-left:16px;font-size:13px;color:var(--muted);">
             <li>Go to <strong>Boost</strong> tab and fill wall prices in millions + quantities.</li>
             <li>Enter your <strong>Supercell ID email</strong>, choose PayPal or Paysafecard and click <strong>PLACE ORDER</strong>.</li>
-            <li>Check the <strong>Orders</strong> tab to see your order, use the chat, and after finishing leave a <strong>Vouch</strong>.</li>
+            <li>Check the <strong>Orders</strong> tab to see your order, open chat, in the end leave a <strong>Vouch</strong>.</li>
           </ol>
         </div>
       </section>
@@ -881,56 +953,46 @@
   </div>
 </div>
 
+<!-- CHAT MODAL -->
+<div class="chat-modal-backdrop" id="chatModalBackdrop">
+  <div class="chat-modal">
+    <div class="chat-modal-header">
+      <div>
+        <div class="chat-modal-title" id="chatModalTitle">Order chat</div>
+        <div style="font-size:11px;color:var(--muted);" id="chatModalSub"></div>
+      </div>
+      <button class="close-chat-btn" type="button" id="closeChatBtn">Close</button>
+    </div>
+    <div class="chat-modal-body">
+      <div class="chat-modal-log" id="chatModalLog">
+        <!-- lines -->
+      </div>
+      <div class="chat-modal-input-row">
+        <input type="text" id="chatModalInput" class="input" placeholder="Write a message to store with this order...">
+        <button class="chat-send-btn" type="button" id="chatModalSend">Send</button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;">
+        This chat is only stored locally in this browser (demo). For real communication, use Discord / email.
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   (function(){
     const EURO_RATE = 215; // 1 EUR = 215 millions
 
-    // 🔹 “DATABASE” – TU UREJAŠ KUPONE
-    // type: "percent" = % popust, "fixed" = € popust
+    // 🔹 “DATABASE” – kuponi
     const COUPONS = {
-      "WALL20": { type:"percent", value:20, active:true, note:"20% off total" },
+      "WALL10": { type:"percent", value:10, active:true, note:"10% off total" },
       "WALL5": { type:"fixed", value:5, active:true, note:"5€ off" }
-      // dodaj svoje: "MOJAKODA": { type:"percent", value:20, active:true, note:"20% off" }
     };
 
-    // 🔹 “DATABASE” – TU LAHKO DODAŠ STARE NAKUPE
+    // 🔹 “DATABASE” – preloaded orders (po želji dopolni ali izbriši)
     const INITIAL_ORDERS = [
-      // Primer:
       {
-        id: "1",
-        email: "stric@gmail.com",
-        method: "paypal",
-        eur: 9.99,
-        baseEur: 9.99,
-        millions: 2150,
-        couponCode: "WALL10",
-        couponText: "Preloaded example order",
-        createdAt: "2025-01-01 15:30",
-        status: "completed",
-        messages: [
-          { who: "System", text: "Order created (preloaded)." },
-          { who: "System", text: "Marked as completed — demo." }
-        ]
-      },
-            {
-        id: "2",
-        email: "ghost@gmail.com",
-        method: "paypal",
-        eur: 9.99,
-        baseEur: 9.99,
-        millions: 2150,
-        couponCode: "WALL10",
-        couponText: "Preloaded example order",
-        createdAt: "2025-01-01 15:30",
-        status: "completed",
-        messages: [
-          { who: "System", text: "Order created (preloaded)." },
-          { who: "System", text: "Marked as completed — demo." }
-        ]
-      },
-            {
-        id: "3",
-        email: "jakob@gmail.com",
+        id: "100001",
+        email: "example@player.com",
         method: "paypal",
         eur: 9.99,
         baseEur: 9.99,
@@ -944,7 +1006,6 @@
           { who: "System", text: "Marked as completed — demo." }
         ]
       }
-      // Dodaj svoje objekte tukaj po istem formatu.
     ];
 
     const rows = [
@@ -957,7 +1018,6 @@
     const vouches = [];
     let selectedRating = 0;
 
-    // Trenutne vsote + kupon
     let currentTotals = {
       baseMillions: 0,
       baseEur: 0,
@@ -984,7 +1044,7 @@
         showSection(target);
       });
     });
-    showSection('home'); // start
+    showSection('home');
 
     // CALC
     function toNumber(value){
@@ -1006,7 +1066,6 @@
       currentTotals.baseMillions = sumMillions;
       currentTotals.baseEur = baseEur;
 
-      // če kupon ni aktiven, final = base
       if(!currentTotals.activeCoupon){
         currentTotals.finalEur = baseEur;
       }
@@ -1036,7 +1095,6 @@
         recalcBaseTotals();
       });
     });
-
     recalcBaseTotals();
 
     function validateEmail(email){
@@ -1093,7 +1151,7 @@
       updateTotalsUI();
     });
 
-    // ORDERS + VOUCHES “DB”
+    // ORDERS + VOUCHES
     function renderOrders(){
       const wrapper = document.getElementById('ordersWrapper');
       wrapper.innerHTML = '';
@@ -1147,12 +1205,40 @@
         meta3.textContent = 'Created at: ' + order.createdAt;
         card.appendChild(meta3);
 
+        const actions = document.createElement('div');
+        actions.className = 'order-actions';
+
+        const openChatBtn = document.createElement('button');
+        openChatBtn.className = 'open-chat-btn';
+        openChatBtn.textContent = 'Open chat window';
+        openChatBtn.addEventListener('click', ()=>{
+          openChatModal(order.id);
+        });
+        actions.appendChild(openChatBtn);
+
+        const completeBtn = document.createElement('button');
+        completeBtn.className = 'complete-btn';
+        completeBtn.textContent = order.status === 'completed' ? 'Order marked as completed' : 'Mark completed';
+        if(order.status === 'completed'){
+          completeBtn.disabled = true;
+        }else{
+          completeBtn.addEventListener('click', ()=>{
+            order.status = 'completed';
+            order.messages.push({ who:'System', text:'Order marked as completed. You can now leave a vouch in the Vouches tab.' });
+            renderOrders();
+          });
+        }
+        actions.appendChild(completeBtn);
+
+        card.appendChild(actions);
+
+        // mini chat inline (ostane)
         const chatBlock = document.createElement('div');
         chatBlock.className = 'order-chat';
 
         const chatTitle = document.createElement('div');
         chatTitle.className = 'total-label';
-        chatTitle.textContent = 'Chat with booster (local notes)';
+        chatTitle.textContent = 'Inline chat notes';
         chatBlock.appendChild(chatTitle);
 
         const chatLog = document.createElement('div');
@@ -1174,12 +1260,12 @@
 
         const chatInput = document.createElement('input');
         chatInput.className = 'input chat-input';
-        chatInput.placeholder = 'Write message (local note)...';
+        chatInput.placeholder = 'Quick note for this order...';
         chatRow.appendChild(chatInput);
 
         const chatBtn = document.createElement('button');
         chatBtn.className = 'chat-send-btn';
-        chatBtn.textContent = 'Send';
+        chatBtn.textContent = 'Add';
         chatBtn.addEventListener('click', ()=>{
           const text = chatInput.value.trim();
           if(!text) return;
@@ -1189,20 +1275,6 @@
         });
         chatRow.appendChild(chatBtn);
         chatBlock.appendChild(chatRow);
-
-        const completeBtn = document.createElement('button');
-        completeBtn.className = 'complete-btn';
-        completeBtn.textContent = order.status === 'completed' ? 'Order marked as completed' : 'Mark order completed';
-        if(order.status === 'completed'){
-          completeBtn.disabled = true;
-        }else{
-          completeBtn.addEventListener('click', ()=>{
-            order.status = 'completed';
-            order.messages.push({ who:'System', text:'Order marked as completed. You can now leave a vouch in the Vouches tab.' });
-            renderOrders();
-          });
-        }
-        chatBlock.appendChild(completeBtn);
 
         card.appendChild(chatBlock);
         wrapper.appendChild(card);
@@ -1376,9 +1448,75 @@
       renderVouches();
     });
 
+    // CHAT MODAL LOGIC
+    const chatModalBackdrop = document.getElementById('chatModalBackdrop');
+    const chatModalTitle = document.getElementById('chatModalTitle');
+    const chatModalSub = document.getElementById('chatModalSub');
+    const chatModalLog = document.getElementById('chatModalLog');
+    const chatModalInput = document.getElementById('chatModalInput');
+    const chatModalSend = document.getElementById('chatModalSend');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+
+    let currentChatOrder = null;
+
+    function openChatModal(orderId){
+      const order = orders.find(o=>o.id === orderId);
+      if(!order) return;
+      currentChatOrder = order;
+
+      chatModalTitle.textContent = 'Chat – Order #' + order.id;
+      chatModalSub.textContent = 'Email: ' + order.email + ' • Method: ' + order.method.toUpperCase();
+      renderChatModalLog();
+      chatModalInput.value = '';
+      chatModalBackdrop.classList.add('active');
+      chatModalInput.focus();
+    }
+
+    function closeChatModal(){
+      chatModalBackdrop.classList.remove('active');
+      currentChatOrder = null;
+    }
+
+    function renderChatModalLog(){
+      chatModalLog.innerHTML = '';
+      if(!currentChatOrder) return;
+      currentChatOrder.messages.forEach(m=>{
+        const line = document.createElement('div');
+        line.className = 'chat-line ' + (m.who === 'System' ? 'system' : '');
+        const whoSpan = document.createElement('span');
+        whoSpan.className = 'who';
+        whoSpan.textContent = m.who + ': ';
+        line.appendChild(whoSpan);
+        line.appendChild(document.createTextNode(m.text));
+        chatModalLog.appendChild(line);
+      });
+      chatModalLog.scrollTop = chatModalLog.scrollHeight;
+    }
+
+    chatModalSend.addEventListener('click', ()=>{
+      if(!currentChatOrder) return;
+      const text = chatModalInput.value.trim();
+      if(!text) return;
+      currentChatOrder.messages.push({ who:'You', text });
+      chatModalInput.value = '';
+      renderChatModalLog();
+      renderOrders(); // update inline chat too
+    });
+
+    chatModalInput.addEventListener('keydown', e=>{
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        chatModalSend.click();
+      }
+    });
+
+    closeChatBtn.addEventListener('click', closeChatModal);
+    chatModalBackdrop.addEventListener('click', e=>{
+      if(e.target === chatModalBackdrop) closeChatModal();
+    });
+
     // INIT preloaded orders
     INITIAL_ORDERS.forEach(o=>{
-      // clone
       orders.push(JSON.parse(JSON.stringify(o)));
     });
 
