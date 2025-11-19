@@ -983,7 +983,7 @@
 
     // 🔹 “DATABASE” – kuponi
     const COUPONS = {
-      "WALL10": { type:"percent", value:10, active:true, note:"10% off total" },
+      "RAFALČIČ": { type:"percent", value:20, active:true, note:"20% off total" },
       "WALL5": { type:"fixed", value:5, active:true, note:"5€ off" }
     };
 
@@ -992,6 +992,54 @@
       {
         id: "100001",
         email: "example@player.com",
+        method: "paypal",
+        eur: 9.99,
+        baseEur: 9.99,
+        millions: 2150,
+        couponCode: "WALL10",
+        couponText: "Preloaded example order",
+        createdAt: "2025-01-01 15:30",
+        status: "completed",
+        messages: [
+          { who: "System", text: "Order created (preloaded)." },
+          { who: "System", text: "Marked as completed — demo." }
+        ]
+      },
+            {
+        id: "1",
+        email: "stric@gmail.com",
+        method: "paypal",
+        eur: 9.99,
+        baseEur: 9.99,
+        millions: 2150,
+        couponCode: "WALL10",
+        couponText: "Preloaded example order",
+        createdAt: "2025-01-01 15:30",
+        status: "completed",
+        messages: [
+          { who: "System", text: "Order created (preloaded)." },
+          { who: "System", text: "Marked as completed — demo." }
+        ]
+      },
+            {
+        id: "2",
+        email: "jakob@gmail.com",
+        method: "paypal",
+        eur: 9.99,
+        baseEur: 9.99,
+        millions: 2150,
+        couponCode: "WALL10",
+        couponText: "Preloaded example order",
+        createdAt: "2025-01-01 15:30",
+        status: "completed",
+        messages: [
+          { who: "System", text: "Order created (preloaded)." },
+          { who: "System", text: "Marked as completed — demo." }
+        ]
+      },
+            {
+        id: "3",
+        email: "ghost@gmail.com",
         method: "paypal",
         eur: 9.99,
         baseEur: 9.99,
