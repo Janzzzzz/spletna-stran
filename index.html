@@ -16,6 +16,7 @@
       --text-main:#e5e7eb;
       --muted:#9ca3af;
       --danger:#f97373;
+      --success:#4ade80;
     }
     *{box-sizing:border-box;}
 
@@ -192,7 +193,7 @@
       font-weight:700;
     }
 
-    /* CARD / CALC */
+    /* CARD / GENERIC */
     .card{
       margin-top:10px;
       border-radius:18px;
@@ -221,6 +222,7 @@
       color:var(--muted);
     }
 
+    /* CALCULATOR */
     .row-header{
       display:grid;
       grid-template-columns:2fr 1fr 1.4fr;
@@ -252,7 +254,8 @@
 
     .input,
     .output,
-    .text-input{
+    .text-input,
+    .textarea{
       width:100%;
       padding:9px 11px;
       border-radius:11px;
@@ -265,14 +268,21 @@
       transition:border .15s ease, box-shadow .15s ease, background .15s ease;
     }
     .input:focus,
-    .text-input:focus{
+    .text-input:focus,
+    .textarea:focus{
       border-color:var(--blue-main);
       box-shadow:0 0 0 1px rgba(56,189,248,0.4);
       background:rgba(15,23,42,0.95);
     }
     .input::placeholder,
-    .text-input::placeholder{
+    .text-input::placeholder,
+    .textarea::placeholder{
       color:#6b7280;
+    }
+
+    .textarea{
+      resize:vertical;
+      min-height:50px;
     }
 
     .output{
@@ -416,6 +426,186 @@
       display:none;
     }
 
+    /* NEWS */
+    .news-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:6px;
+    }
+    .news-card{
+      border-radius:14px;
+      padding:10px 11px;
+      border:1px solid rgba(148,163,184,0.4);
+      background:rgba(15,23,42,0.95);
+      font-size:12px;
+    }
+    .news-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.09em;
+      color:var(--blue-main);
+      margin-bottom:4px;
+    }
+    .news-title{
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:2px;
+    }
+    .news-date{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    /* ORDERS LIST */
+    .orders-wrapper{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:8px;
+    }
+    .order-card{
+      border-radius:14px;
+      border:1px solid rgba(148,163,184,0.45);
+      background:rgba(15,23,42,0.96);
+      padding:10px 11px 12px;
+      font-size:12px;
+    }
+    .order-header{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:4px;
+      align-items:center;
+    }
+    .order-id{
+      font-weight:600;
+      color:var(--blue-main);
+      font-size:11px;
+    }
+    .order-status{
+      font-size:11px;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.5);
+      color:var(--muted);
+    }
+    .order-status.complete{
+      border-color:rgba(74,222,128,0.7);
+      color:var(--success);
+    }
+    .order-meta{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+    .order-meta strong{
+      color:#e5e7eb;
+    }
+
+    .order-chat{
+      margin-top:6px;
+      padding-top:6px;
+      border-top:1px dashed rgba(148,163,184,0.5);
+    }
+    .chat-log{
+      max-height:120px;
+      overflow-y:auto;
+      font-size:11px;
+      margin-bottom:6px;
+    }
+    .chat-line{
+      margin-bottom:3px;
+    }
+    .chat-line span.who{
+      font-weight:600;
+      color:var(--blue-main);
+    }
+    .chat-line.system span.who{
+      color:var(--muted);
+    }
+    .chat-input-row{
+      display:flex;
+      gap:6px;
+      margin-top:4px;
+    }
+    .chat-input{
+      flex:1;
+    }
+    .chat-send-btn{
+      padding:6px 10px;
+      border-radius:999px;
+      border:none;
+      background:rgba(56,189,248,0.12);
+      color:var(--blue-main);
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .complete-btn{
+      margin-top:6px;
+      padding:5px 9px;
+      border-radius:999px;
+      border:none;
+      background:rgba(22,163,74,0.12);
+      color:var(--success);
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    /* VOUCHES */
+    .stars{
+      display:flex;
+      gap:4px;
+      font-size:16px;
+      cursor:pointer;
+      margin:4px 0;
+    }
+    .star{
+      opacity:0.35;
+      transition:opacity .1s ease, transform .1s ease;
+    }
+    .star.active{
+      opacity:1;
+      color:#fbbf24;
+      transform:translateY(-1px);
+    }
+
+    .vouches-wrapper{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:8px;
+    }
+    .vouch-card{
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,0.45);
+      background:rgba(15,23,42,0.96);
+      padding:8px 9px;
+      font-size:12px;
+    }
+    .vouch-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:3px;
+    }
+    .vouch-email{
+      font-size:11px;
+      color:var(--muted);
+    }
+    .vouch-rating{
+      font-size:12px;
+      color:#fbbf24;
+    }
+    .vouch-text{
+      font-size:12px;
+    }
+
     @media (max-width:800px){
       .header{
         flex-direction:column;
@@ -425,6 +615,10 @@
         flex-direction:column;
       }
       .order-grid{
+        grid-template-columns:1fr;
+      }
+      .row-header,
+      .row{
         grid-template-columns:1fr;
       }
     }
@@ -451,6 +645,7 @@
           <a href="#news"><span class="dot"></span> News</a>
           <a href="#boost" class="active"><span class="dot"></span> Boost</a>
           <a href="#orders"><span class="dot"></span> Orders</a>
+          <a href="#vouches"><span class="dot"></span> Vouches</a>
         </nav>
       </header>
 
@@ -467,8 +662,8 @@
           </div>
         </div>
         <div class="hero-right-chip">
-          <strong>Note:</strong> This page only calculates and prepares your order.
-          Payment is processed via <strong>PayPal</strong> or <strong>Paysafecard</strong> after you confirm.
+          <strong>Note:</strong> This page calculates and tracks your order locally in this browser.
+          Payment is via <strong>PayPal (zupp1zupp1)</strong> or <strong>Paysafecard</strong>.
         </div>
       </section>
 
@@ -571,7 +766,7 @@
             <div id="methodError" class="error">Please select a payment method.</div>
 
             <div class="order-note">
-              We only need your Supercell ID email to log in and boost. No password is stored.
+              We only need your Supercell ID email to log in and boost. No password is stored in this tool.
             </div>
           </div>
 
@@ -584,6 +779,83 @@
 
         <div class="order-message" id="orderMessage"></div>
 
+      </section>
+
+      <!-- NEWS SECTION -->
+      <section class="card" id="news" style="margin-top:18px;">
+        <div class="section-title-row">
+          <div class="section-title">News & updates</div>
+          <div class="section-sub">Small info board you can update in the code.</div>
+        </div>
+
+        <div class="news-list">
+          <div class="news-card">
+            <div class="news-tag">Update</div>
+            <div class="news-title">New calculator layout</div>
+            <div class="news-date">2025-01-01</div>
+            <div>Modern blue theme & full order tracking added.</div>
+          </div>
+          <div class="news-card">
+            <div class="news-tag">Info</div>
+            <div class="news-title">Payment methods</div>
+            <div class="news-date">Always current</div>
+            <div>We support PayPal (zupp1zupp1) and Paysafecard codes.</div>
+          </div>
+          <div class="news-card">
+            <div class="news-tag">Tip</div>
+            <div class="news-title">Best way to order</div>
+            <div class="news-date">Anytime</div>
+            <div>Fill the calculator, place order, then pay with PayPal link or send Paysafecard.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORDERS LIST SECTION -->
+      <section class="card" id="orders-list" style="margin-top:18px;">
+        <div class="section-title-row">
+          <div class="section-title">Your orders (this browser)</div>
+          <div class="section-sub">Orders are stored only in this browser session (local preview, not real database).</div>
+        </div>
+
+        <div id="ordersWrapper" class="orders-wrapper">
+          <!-- filled by JS -->
+        </div>
+      </section>
+
+      <!-- VOUCHES SECTION -->
+      <section class="card" id="vouches" style="margin-top:18px;">
+        <div class="section-title-row">
+          <div class="section-title">Vouches</div>
+          <div class="section-sub">After your order is completed, leave a rating & vouch.</div>
+        </div>
+
+        <div class="input-wrap">
+          <label class="small">Supercell ID email (used for your last order)</label>
+          <input type="email" id="vouchEmail" class="text-input" placeholder="same email you used for your order">
+        </div>
+
+        <div class="pay-label" style="margin-top:8px;">Rating</div>
+        <div class="stars" id="stars">
+          <span class="star" data-val="1">★</span>
+          <span class="star" data-val="2">★</span>
+          <span class="star" data-val="3">★</span>
+          <span class="star" data-val="4">★</span>
+          <span class="star" data-val="5">★</span>
+        </div>
+
+        <div class="input-wrap" style="margin-top:6px;">
+          <label class="small">Vouch / feedback</label>
+          <textarea id="vouchText" class="textarea" placeholder="Write your experience here..."></textarea>
+        </div>
+
+        <button class="buy-btn" type="button" id="vouchBtn" style="margin-top:10px; font-size:13px; letter-spacing:0.09em;">
+          <span class="icon">⭐</span> SUBMIT VOUCH
+        </button>
+        <div id="vouchError" class="error">Please fill email, choose rating and write a short vouch.</div>
+
+        <div class="vouches-wrapper" id="vouchesWrapper">
+          <!-- filled by JS -->
+        </div>
       </section>
 
     </div>
@@ -600,6 +872,10 @@
       {priceId: 'price3', qtyId: 'qty3', totalId: 'total3'}
     ];
 
+    const orders = [];   // local only
+    const vouches = [];  // local only
+    let selectedRating = 0;
+
     function toNumber(value){
       const n = parseFloat(value);
       return isNaN(n) ? 0 : n;
@@ -611,13 +887,13 @@
       rows.forEach(function(row){
         const price = toNumber(document.getElementById(row.priceId).value);
         const qty   = toNumber(document.getElementById(row.qtyId).value);
-        const total = price * qty;          // walls price × quantity
+        const total = price * qty;
         sumMillions += total;
         document.getElementById(row.totalId).value = total.toFixed(2);
       });
 
       document.getElementById('grandMillions').textContent = sumMillions.toFixed(2);
-      const euros = sumMillions / EURO_RATE; // vse skupaj / 215
+      const euros = sumMillions / EURO_RATE;
       document.getElementById('grandEUR').textContent = euros.toFixed(2) + ' €';
     }
 
@@ -629,14 +905,170 @@
     update();
 
     function validateEmail(email){
-      // simple email check
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
+    function renderOrders(){
+      const wrapper = document.getElementById('ordersWrapper');
+      wrapper.innerHTML = '';
+
+      if(orders.length === 0){
+        const empty = document.createElement('div');
+        empty.style.fontSize = '12px';
+        empty.style.color = getComputedStyle(document.body).getPropertyValue('--muted');
+        empty.textContent = 'No orders in this browser yet. Place an order in the Boost section.';
+        wrapper.appendChild(empty);
+        return;
+      }
+
+      orders.slice().reverse().forEach(function(order){
+        const card = document.createElement('div');
+        card.className = 'order-card';
+
+        const header = document.createElement('div');
+        header.className = 'order-header';
+
+        const idSpan = document.createElement('div');
+        idSpan.className = 'order-id';
+        idSpan.textContent = 'Order #' + order.id;
+        header.appendChild(idSpan);
+
+        const status = document.createElement('div');
+        status.className = 'order-status' + (order.status === 'completed' ? ' complete' : '');
+        status.textContent = order.status === 'completed' ? 'Completed' : 'Pending';
+        header.appendChild(status);
+
+        card.appendChild(header);
+
+        const meta = document.createElement('div');
+        meta.className = 'order-meta';
+        meta.innerHTML =
+          '<strong>Email:</strong> ' + order.email + ' • ' +
+          '<strong>Method:</strong> ' + order.method.toUpperCase() + ' • ' +
+          '<strong>Total:</strong> ' + order.eur.toFixed(2) + ' € (' + order.millions.toFixed(2) + 'M)';
+        card.appendChild(meta);
+
+        const meta2 = document.createElement('div');
+        meta2.className = 'order-meta';
+        meta2.textContent = 'Created at: ' + order.createdAt;
+        card.appendChild(meta2);
+
+        // Chat block
+        const chatBlock = document.createElement('div');
+        chatBlock.className = 'order-chat';
+
+        const chatTitle = document.createElement('div');
+        chatTitle.className = 'total-label';
+        chatTitle.textContent = 'Chat with booster (local notes)';
+        chatBlock.appendChild(chatTitle);
+
+        const chatLog = document.createElement('div');
+        chatLog.className = 'chat-log';
+
+        order.messages.forEach(function(m){
+          const line = document.createElement('div');
+          line.className = 'chat-line ' + (m.who === 'System' ? 'system' : '');
+          const whoSpan = document.createElement('span');
+          whoSpan.className = 'who';
+          whoSpan.textContent = m.who + ': ';
+          line.appendChild(whoSpan);
+          line.appendChild(document.createTextNode(m.text));
+          chatLog.appendChild(line);
+        });
+
+        chatBlock.appendChild(chatLog);
+
+        const chatRow = document.createElement('div');
+        chatRow.className = 'chat-input-row';
+
+        const chatInput = document.createElement('input');
+        chatInput.className = 'input chat-input';
+        chatInput.placeholder = 'Write message (local note)...';
+        chatRow.appendChild(chatInput);
+
+        const chatBtn = document.createElement('button');
+        chatBtn.className = 'chat-send-btn';
+        chatBtn.textContent = 'Send';
+        chatBtn.addEventListener('click', function(){
+          const text = chatInput.value.trim();
+          if(!text) return;
+          order.messages.push({ who: 'You', text: text });
+          chatInput.value = '';
+          renderOrders();
+        });
+        chatRow.appendChild(chatBtn);
+
+        chatBlock.appendChild(chatRow);
+
+        const completeBtn = document.createElement('button');
+        completeBtn.className = 'complete-btn';
+        completeBtn.textContent = order.status === 'completed' ? 'Order marked as completed' : 'Mark order completed';
+        if(order.status === 'completed'){
+          completeBtn.disabled = true;
+        }else{
+          completeBtn.addEventListener('click', function(){
+            order.status = 'completed';
+            order.messages.push({ who: 'System', text: 'Order marked as completed. You can now leave a vouch in the Vouches section.' });
+            renderOrders();
+          });
+        }
+        chatBlock.appendChild(completeBtn);
+
+        card.appendChild(chatBlock);
+        wrapper.appendChild(card);
+      });
+    }
+
+    function renderVouches(){
+      const wrapper = document.getElementById('vouchesWrapper');
+      wrapper.innerHTML = '';
+
+      if(vouches.length === 0){
+        const empty = document.createElement('div');
+        empty.style.fontSize = '12px';
+        empty.style.color = getComputedStyle(document.body).getPropertyValue('--muted');
+        empty.style.marginTop = '6px';
+        empty.textContent = 'No vouches yet. After your order is completed, you can leave the first one!';
+        wrapper.appendChild(empty);
+        return;
+      }
+
+      vouches.slice().reverse().forEach(function(v){
+        const card = document.createElement('div');
+        card.className = 'vouch-card';
+
+        const header = document.createElement('div');
+        header.className = 'vouch-header';
+
+        const email = document.createElement('div');
+        email.className = 'vouch-email';
+        email.textContent = v.email;
+        header.appendChild(email);
+
+        const rating = document.createElement('div');
+        rating.className = 'vouch-rating';
+        rating.textContent = '★'.repeat(v.rating);
+        header.appendChild(rating);
+
+        card.appendChild(header);
+
+        const text = document.createElement('div');
+        text.className = 'vouch-text';
+        text.textContent = v.text;
+        card.appendChild(text);
+
+        wrapper.appendChild(card);
+      });
+    }
+
+    // BUY button
     document.getElementById('buyBtn').addEventListener('click', function(){
       const email = document.getElementById('supercellEmail').value.trim();
       const grandEurText = document.getElementById('grandEUR').textContent.replace('€','').trim();
       const grandEur = parseFloat(grandEurText) || 0;
+      const grandMillionsText = document.getElementById('grandMillions').textContent.trim();
+      const grandMillions = parseFloat(grandMillionsText) || 0;
+
       const methodEl = document.querySelector('input[name="payMethod"]:checked');
       const msgBox = document.getElementById('orderMessage');
       const emailError = document.getElementById('emailError');
@@ -662,34 +1094,115 @@
       const method = methodEl.value;
       let msg = '';
 
+      const now = new Date();
+      const id = now.getTime().toString().slice(-6);
+      const createdAt = now.toLocaleString();
+
+      const order = {
+        id: id,
+        email: email,
+        method: method,
+        eur: grandEur,
+        millions: grandMillions,
+        createdAt: createdAt,
+        status: 'pending',
+        messages: [
+          { who:'System', text:'Order created. Please complete payment and contact booster if needed.' }
+        ]
+      };
+      orders.push(order);
+
       if(method === 'paypal'){
         const eurosRounded = grandEur.toFixed(2);
         msg =
-          'PAYMENT METHOD: PayPal\\n' +
-          'Amount: ' + eurosRounded + ' €\\n' +
-          'Supercell ID email: ' + email + '\\n\\n' +
-          '1) A PayPal.me tab will open with the correct amount. Complete the payment.\\n' +
-          '2) In the PayPal note, write your Supercell ID email again.\\n' +
-          '3) We will contact you on that email and start the boost.';
+          'PAYMENT METHOD: PayPal\n' +
+          'Amount: ' + eurosRounded + ' €\n' +
+          'Supercell ID email: ' + email + '\n\n' +
+          '1) A PayPal.me tab will open with the correct amount.\n' +
+          '2) In the PayPal note, write your Supercell ID email again.\n' +
+          '3) After payment, contact the booster (Discord/Email) and boosting will start.';
 
         msgBox.textContent = msg;
         msgBox.style.display = 'block';
 
-        // 🔹 PAYPAL LINK – zamenjaj YOURPAYPALNAME s svojim pravim PayPal.me username
         const paypalUrl = 'https://paypal.me/zupp1zupp1/' + eurosRounded;
         window.open(paypalUrl, '_blank');
       } else if(method === 'paysafecard'){
         msg =
-          'PAYMENT METHOD: Paysafecard\\n' +
-          'Amount: ' + grandEur.toFixed(2) + ' € (215 millions = 1 €)\\n' +
-          'Supercell ID email: ' + email + '\\n\\n' +
-          '1) Buy a Paysafecard for at least this amount.\\n' +
-          '2) Send the Paysafecard code + your Supercell ID email to our contact (Discord / email).\\n' +
-          '3) After we confirm the code, we will log in using your Supercell ID email and start boosting.';
+          'PAYMENT METHOD: Paysafecard\n' +
+          'Amount: ' + grandEur.toFixed(2) + ' € (215 millions = 1 €)\n' +
+          'Supercell ID email: ' + email + '\n\n' +
+          '1) Buy a Paysafecard for at least this amount.\n' +
+          '2) Send the Paysafecard code + your Supercell ID email to booster (Discord / email).\n' +
+          '3) After confirmation, boosting will start.';
         msgBox.textContent = msg;
         msgBox.style.display = 'block';
       }
+
+      renderOrders();
+      // scroll to orders section
+      document.getElementById('orders-list').scrollIntoView({behavior:'smooth'});
     });
+
+    // Stars rating
+    const starContainer = document.getElementById('stars');
+    const starElems = Array.from(starContainer.querySelectorAll('.star'));
+
+    starElems.forEach(function(star){
+      star.addEventListener('click', function(){
+        const val = parseInt(star.getAttribute('data-val'), 10);
+        selectedRating = val;
+        starElems.forEach(function(s){
+          const sVal = parseInt(s.getAttribute('data-val'), 10);
+          s.classList.toggle('active', sVal <= val);
+        });
+      });
+    });
+
+    document.getElementById('vouchBtn').addEventListener('click', function(){
+      const email = document.getElementById('vouchEmail').value.trim();
+      const text = document.getElementById('vouchText').value.trim();
+      const error = document.getElementById('vouchError');
+
+      error.style.display = 'none';
+
+      if(!validateEmail(email) || !text || selectedRating === 0){
+        error.style.display = 'block';
+        return;
+      }
+
+      vouches.push({
+        email: email,
+        rating: selectedRating,
+        text: text
+      });
+
+      // Clear form
+      document.getElementById('vouchText').value = '';
+      selectedRating = 0;
+      starElems.forEach(function(s){ s.classList.remove('active'); });
+
+      renderVouches();
+    });
+
+    // Try to prefill vouch email with last order email
+    function syncVouchEmail(){
+      if(orders.length > 0){
+        const lastEmail = orders[orders.length - 1].email;
+        document.getElementById('vouchEmail').value = lastEmail;
+      }
+    }
+
+    // after each renderOrders, sync vouch email
+    const originalRenderOrders = renderOrders;
+    renderOrders = function(){
+      originalRenderOrders();
+      syncVouchEmail();
+    };
+
+    // initialize
+    originalRenderOrders();
+    renderVouches();
   })();
 </script>
 
